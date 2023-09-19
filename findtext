@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Searching files for '$1'"
+for entry in $(find . -type f -name "*"); do
+    if grep -q -- $1 <<< $(strings $entry); then
+        echo "Found text in: $entry"
+    fi
+done
+

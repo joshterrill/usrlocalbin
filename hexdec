@@ -1,0 +1,11 @@
+#!/bin/bash
+
+printf "?> "
+while read i
+    do
+    if [[ $i == *h ]]; then
+        printf "Decimal  $(( 0x${i%?} ))\n?> "
+    else
+        printf 'Hex  %x\n\?> ' $i
+    fi
+done

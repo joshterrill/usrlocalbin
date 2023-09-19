@@ -1,0 +1,39 @@
+# proxy's connection to remote_host from proxy_host through localhost
+has_param() {
+    local term="$1"
+    shift
+    for arg; do
+        if [[ $arg == "$term" ]]; then
+            return 0
+        fi
+    done
+    return 1
+}
+cleanup() {
+    echo "$etchostsText" > /etc/hosts
+    echo "\nDone."
+}
+check_exit() {
+    EXITCODE=$?
+    echo "Exit: $1"
+    if [ "$EXITCODE" -ne "0" ]; then
+        if [ "$1" -eq "0" ]; then
+            cleanup
+        fi
+        exit
+    fi
+}
+
+if has_param '--help' "$@"; then
+    echo "Usage: tunnel <remote_host> <remote_port> <local_port> <login@proxy_host>"
+else
+    etchostsText=$(cat /etc/hosts)
+    echo "Running: ssh -L $2:$1:$3 $4 -N"
+    echo "\n127.0.0.1 $1" >> /etc/hosts
+    check_exit 0
+    echo "You should now be able to access $1:$2 via localhost:$3"
+    echo "Press Ctrl-C to exit"
+    ssh -L $2:$1:$3 $4 -N
+    check_exit 1
+    trap cleanup EXIT
+fi

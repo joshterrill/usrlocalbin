@@ -1,0 +1,25 @@
+do_dig() {
+    echo "===================\n|||||| $2 ||||||\n==================="
+    if [ "$3" == "short" ]; then
+        dig +short @8.8.8.8 $1 $2
+        echo "\n"
+    else
+        dig @8.8.8.8 $1 $2
+    fi
+    
+}
+
+echo "\n\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\nRunning 'dig' on $1\n"
+do_dig $1 "  a  " $2
+do_dig $1 " txt " $2
+do_dig $1 "cname" $2
+do_dig $1 "aname" $2
+do_dig $1 " soa " $2
+do_dig $1 " mx  " $2
+do_dig $1 " ns  " $2
+
+echo "\n\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\nRunning 'host' on $1\n"
+host $1
+
+echo "\n\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\nRunning 'nmap' on $1\n"
+nmap -Pn $1
