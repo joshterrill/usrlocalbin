@@ -1,6 +1,6 @@
 # usrlocalbin
 
-A collection of utility scripts that I have created in `/usr/local/bin/`
+A collection of custom utility scripts that I have created in `/usr/local/bin/`
 
 *Note: all scripts must be executable i.e. `chmod +x /usr/local/bin/<script>`*
 
@@ -38,10 +38,16 @@ findtext <"text_to_search">
 # i.e. findtext "API_KEY"
 ```
 
-
 ### `tunnel`
 Creates an SSH tunnel and temporarily modifies `/etc/hosts` file
 ```bash
 tunnel <remote_hostname> <remote_port> <local_port> <ssh path>
 # i.e. tunnel unreachablehostname.com 7001 7001 user@reachablehost.com
+```
+
+###  `guid`
+Creates a guid and copies it to clipboard via `pbcopy`
+```bash
+guid
+# def27f76-ff8e-481b-8b7b-f01e75e2bff8
 ```
