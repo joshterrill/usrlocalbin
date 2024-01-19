@@ -19,6 +19,9 @@ Find text in all files/directories recursively from the current directory you're
 ```bash
 findtext <"text_to_search">
 # i.e. findtext "API_KEY"
+# Searching files for 'API_KEY'
+# Found text in: ./.env
+# Found text in: ./src/index.ts
 ```
 
 ### `hexdec`
@@ -26,16 +29,16 @@ Converts hex to decimal and vice-versa
 ```bash
 hexdec
 ?> 12h
-Decimal  18
+# Decimal  18
 ?> 18
-Hex  12
+# Hex  12
 ```
 
 ### `ip`
 Returns current machine IP
 ```bash
-findtext <"text_to_search">
-# i.e. findtext "API_KEY"
+ip
+# 108.72.21.11
 ```
 
 ### `tunnel`
