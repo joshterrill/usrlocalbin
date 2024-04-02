@@ -54,3 +54,10 @@ Creates a guid and copies it to clipboard via `pbcopy`
 guid
 # def27f76-ff8e-481b-8b7b-f01e75e2bff8
 ```
+
+### `temperature`
+Prints the current temperature of your CPU to stdout
+```bash
+temperature
+# CPU die temperature: 64.83 C
+```
