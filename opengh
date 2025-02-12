@@ -1,0 +1,19 @@
+#!/bin/bash
+
+git_url=$(git config --get remote.origin.url)
+
+if [ -z "$git_url" ]; then
+  echo "Not in a git repository."
+  exit 1
+fi
+
+git_url=$(echo $git_url | sed 's/\.git$//')
+git_url=$(echo $git_url | sed 's/git@/https:\/\//')
+git_url=$(echo $git_url | sed 's/github.com:/github.com\//')
+
+branch=$(git rev-parse --abbrev-ref HEAD)
+full_url="$git_url/tree/$branch"
+
+echo "Opening $full_url"
+open "$full_url"
+
