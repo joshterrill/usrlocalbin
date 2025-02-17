@@ -61,3 +61,12 @@ Prints the current temperature of your CPU to stdout
 temperature
 # CPU die temperature: 64.83 C
 ```
+
+### `largefiles`
+Prints the largest files recursively in current directory
+```bash
+largefiles
+# default prints 10 largest files
+largefiles 20
+# prints 20 largest files
+```
