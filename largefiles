@@ -1,4 +1,0 @@
-#!/bin/bash
-#$NUM_FILES is passed in or default is 10
-NUM_FILES=${1:-10}
-find . -type f -exec du -ah {} + 2>/dev/null | sort -rh | head -n "$NUM_FILES"
