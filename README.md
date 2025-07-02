@@ -62,11 +62,13 @@ temperature
 # CPU die temperature: 64.83 C
 ```
 
-### `largefiles`
+### `bigones`
 Prints the largest files recursively in current directory
 ```bash
-largefiles
-# default prints 10 largest files
-largefiles 20
-# prints 20 largest files
+bigones
+# default prints 20 largest files
+bigones 5
+# prints 5 largest files
+bigones ~/Desktop 10
+# prints 10 largest files in ~/Desktop
 ```

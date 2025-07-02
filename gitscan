@@ -1,0 +1,71 @@
+#!/usr/bin/env bash
+
+set -e
+
+RED="\033[0;31m"
+YELLOW="\033[1;33m"
+GREEN="\033[0;32m"
+NC="\033[0m"
+
+TARGET="."
+DEPTH=1
+
+if [[ $# -eq 1 ]]; then
+    if [[ "$1" =~ ^--depth=([0-9]+)$ ]]; then
+        DEPTH="${BASH_REMATCH[1]}"
+    else
+        TARGET="$1"
+    fi
+elif [[ $# -eq 2 ]]; then
+    TARGET="$1"
+    if [[ "$2" =~ ^--depth=([0-9]+)$ ]]; then
+        DEPTH="${BASH_REMATCH[1]}"
+    else
+        echo "Error: second argument must be --depth=N" >&2
+        exit 1
+    fi
+elif [[ $# -gt 2 ]]; then
+    echo "Usage: $0 [directory] [--depth=N]" >&2
+    exit 1
+fi
+
+echo -e "\n🔎 Checking git repos under: $(realpath "$TARGET") with depth $DEPTH\n"
+
+while IFS= read -r dir; do
+    cd "$dir"
+
+    if [ -d ".git" ]; then
+        repo="$(basename "$dir")"
+        output=""
+
+        if ! git diff --quiet || ! git diff --cached --quiet; then
+            output="${output}📄 ${RED}Uncommitted changes${NC}  "
+        fi
+
+        git remote update -q >/dev/null 2>&1 || true
+
+        upstream=$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null || true)
+        if [ -n "$upstream" ]; then
+            behind_ahead=$(git rev-list --left-right --count "$upstream...HEAD" 2>/dev/null)
+            if [ -n "$behind_ahead" ]; then
+                behind=$(echo "$behind_ahead" | awk '{print $1}')
+                ahead=$(echo "$behind_ahead" | awk '{print $2}')
+                if [ "$ahead" -gt 0 ]; then
+                    output="${output}📤 ${YELLOW}$ahead commit(s) to push${NC}  "
+                fi
+            fi
+        else
+            output="${output}⚠️ ${YELLOW}No upstream set${NC}  "
+        fi
+
+        if [ -z "$output" ]; then
+            echo -e "✅ ${GREEN}$repo clean${NC}"
+        else
+            echo -e "❌ ${repo}: ${output}"
+        fi
+    fi
+
+    cd - >/dev/null
+done < <(find "$TARGET" -mindepth 1 -maxdepth "$DEPTH" -type d -print)
+
+echo -e "\n🎉 Done scanning."

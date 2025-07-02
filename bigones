@@ -1,6 +1,30 @@
 #!/bin/bash
 
-# Use current directory if no argument is passed
-TARGET="${1:-.}"
+# Usage:
+#   ./bigones               → top 20 in current dir
+#   ./bigones 10            → top 10 in current dir
+#   ./bigones /some/dir 10  → top 10 in /some/dir
 
-du -ah "$TARGET" 2>/dev/null | sort -rh | head -n 20 | sort -h
+TARGET="."
+LINES=20
+
+if [[ $# -eq 1 ]]; then
+    if [[ "$1" =~ ^[0-9]+$ ]]; then
+        LINES="$1"
+    else
+        TARGET="$1"
+    fi
+elif [[ $# -eq 2 ]]; then
+    TARGET="$1"
+    if [[ "$2" =~ ^[0-9]+$ ]]; then
+        LINES="$2"
+    else
+        echo "Error: Second argument must be a number." >&2
+        exit 1
+    fi
+elif [[ $# -gt 2 ]]; then
+    echo "Usage: $0 [directory] [number_of_lines]" >&2
+    exit 1
+fi
+
+du -ah "$TARGET" 2>/dev/null | sort -rh | head -n "$LINES"
