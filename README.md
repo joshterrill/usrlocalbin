@@ -89,8 +89,10 @@ gitscan
 Finds stale branches `--older-than` a number of days in a git repo
 
 ```bash
-stalebranch --older-than 10
-
+./stalebranch --older-than 60
+./stalebranch --older-than 60 --dry-run
+./stalebranch --older-than 60 --delete
+./stalebranch --older-than 60 --delete ../repo
 # Branches older than 10 days in .:
 
 # analysis     2025-12-12
