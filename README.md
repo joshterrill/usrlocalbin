@@ -72,3 +72,27 @@ bigones 5
 bigones ~/Desktop 10
 # prints 10 largest files in ~/Desktop
 ```
+
+### `gitscan`
+Scans all folders one level deep from where you currently are to tell you which git repos have un-staged commits, or un-pushed commits
+
+```bash
+gitscan
+
+# Checking git repos under: /Users/josh/Projects with depth 1
+
+# ❌ usrlocalbin:  Uncommitted changes
+# ✅ find-unused-images clean
+```
+
+### `stalebranch`
+Finds stale branches `--older-than` a number of days in a git repo
+
+```bash
+stalebranch --older-than 10
+
+# Branches older than 10 days in .:
+
+# analysis     2025-12-12
+# implement-rate-limiting   2025-12-02
+```
